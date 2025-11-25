@@ -7,7 +7,8 @@ use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
 
 new class extends Component {
-    public string $name = '';
+    public string $first_name = '';
+    public string $last_name = '';
     public string $email = '';
 
     /**
@@ -15,7 +16,8 @@ new class extends Component {
      */
     public function mount(): void
     {
-        $this->name = Auth::user()->name;
+        $this->first_name = Auth::user()->first_name;
+        $this->last_name = Auth::user()->last_name;
         $this->email = Auth::user()->email;
     }
 
@@ -27,7 +29,8 @@ new class extends Component {
         $user = Auth::user();
 
         $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
 
             'email' => [
                 'required',
@@ -41,9 +44,9 @@ new class extends Component {
 
         $user->fill($validated);
 
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
+        // if ($user->isDirty('email')) {
+        //     $user->email_verified_at = null;
+        // }
 
         $user->save();
 
