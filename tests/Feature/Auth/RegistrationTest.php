@@ -14,6 +14,7 @@ test('new users can register', function () {
     $response = Volt::test('auth.register')
         ->set('first_name', 'John')
         ->set('last_name', 'Pork')
+        ->set('phone_number', '1234567890')
         ->set('email', 'test@example.com')
         ->set('password', 'password')
         ->set('password_confirmation', 'password')
