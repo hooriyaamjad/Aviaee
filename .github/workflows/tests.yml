@@ -1,58 +1,3 @@
-# name: tests
-
-# on:
-#   push:
-#     branches:
-#       - develop
-#       - main
-#   pull_request:
-#     branches:
-#       - develop
-#       - main
-
-# jobs:
-#   ci:
-#     runs-on: ubuntu-latest
-#     environment: Testing
-
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-
-#       - name: Setup PHP
-#         uses: shivammathur/setup-php@v2
-#         with:
-#           php-version: 8.4
-#           tools: composer:v2
-#           coverage: xdebug
-
-#       - name: Setup Node
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: '22'
-#           cache: 'npm'
-
-#       - name: Install Node Dependencies
-#         run: npm i
-
-#       - name: Add Flux Credentials Loaded From ENV
-#         run: composer config http-basic.composer.fluxui.dev "${{ secrets.FLUX_USERNAME }}" "${{ secrets.FLUX_LICENSE_KEY }}"
-
-#       - name: Install Dependencies
-#         run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
-#       - name: Copy Environment File
-#         run: cp .env.example .env
-
-#       - name: Generate Application Key
-#         run: php artisan key:generate
-
-#       - name: Build Assets
-#         run: npm run build
-
-#       - name: Run Tests
-#         run: ./vendor/bin/pest
-
 name: tests
 
 on:
@@ -70,26 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: Testing
 
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: laravel
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
     steps:
-      # Checkout code
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # Setup PHP
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -97,60 +26,29 @@ jobs:
           tools: composer:v2
           coverage: xdebug
 
-      # Setup Node
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
 
-      # Install Node dependencies
       - name: Install Node Dependencies
-        run: npm ci
+        run: npm i
 
-      # Add Flux Composer credentials
       - name: Add Flux Credentials Loaded From ENV
         run: composer config http-basic.composer.fluxui.dev "${{ secrets.FLUX_USERNAME }}" "${{ secrets.FLUX_LICENSE_KEY }}"
 
-      # Install PHP dependencies
-      - name: Install PHP Dependencies
-        run: composer install --no-interaction --prefer-dist
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      # Regenerate Composer autoload
-      - name: Regenerate Autoload
-        run: composer dump-autoload
-
-      # Copy environment file
       - name: Copy Environment File
         run: cp .env.example .env
 
-      # Set database environment variables for CI
-      - name: Set Database Environment Variables
-        run: |
-          echo "DB_CONNECTION=mysql" >> .env
-          echo "DB_HOST=127.0.0.1" >> .env
-          echo "DB_PORT=3306" >> .env
-          echo "DB_DATABASE=laravel" >> .env
-          echo "DB_USERNAME=root" >> .env
-          echo "DB_PASSWORD=root" >> .env
-
-      # Generate application key
       - name: Generate Application Key
         run: php artisan key:generate
 
-      # Clear and cache config
-      - name: Configure Application
-        run: |
-          php artisan config:clear
-          php artisan config:cache
-          php artisan migrate --force
-
-      # Build frontend assets
       - name: Build Assets
         run: npm run build
 
-      # Run tests
       - name: Run Tests
-        run: ./vendor/bin/pest --debug
-
-
+        run: ./vendor/bin/pest
