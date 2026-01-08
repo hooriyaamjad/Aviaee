@@ -2,48 +2,41 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use App\Domain\UseCases\FetchUserForLogin;
+use App\Domain\Interfaces\IUserRepository;
 
-// Use RefreshDatabase for migrations + optional WithoutMiddleware
-uses(RefreshDatabase::class, WithoutMiddleware::class)->beforeEach(function () {
-    // Dynamically configure in-memory SQLite
-    config([
-        'database.default' => 'sqlite',
-        'database.connections.sqlite.database' => ':memory:',
-    ]);
+uses(\Illuminate\Foundation\Testing\WithoutMiddleware::class);
 
-    // Run migrations manually in case RefreshDatabase doesn't pick them up
-    $this->artisan('migrate');
+beforeEach(function () {
+    // Mock the IUserRepository for all tests
+    $this->mock(IUserRepository::class, function ($mock) {
+        $mock->shouldReceive('findByEmail')->andReturnUsing(function ($email) {
+            if ($email === 'test@example.com') {
+                return [
+                    'id' => 1,
+                    'password' => Hash::make('secret123')
+                ];
+            }
+            return null;
+        });
+    });
 });
 
 test('login verification endpoint returns 200 for valid credentials', function () {
-    $password = 'secret123';
-
-    $user = User::factory()->create([
-        'email' => 'test@example.com',
-        'password' => Hash::make($password),
-    ]);
-
     $response = $this->postJson('/verify-login-credentials', [
         'email' => 'test@example.com',
-        'password' => $password,
+        'password' => 'secret123',
     ]);
 
     $response
         ->assertStatus(200)
         ->assertJson([
             'message' => 'Login successful',
-            'user_id' => $user->id,
+            'user_id' => 1,
         ]);
 });
 
 test('login verification endpoint returns 401 for invalid password', function () {
-    $user = User::factory()->create([
-        'email' => 'test@example.com',
-        'password' => Hash::make('correct-password'),
-    ]);
-
     $response = $this->postJson('/verify-login-credentials', [
         'email' => 'test@example.com',
         'password' => 'wrong-password',
