@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             'first_name' => 'John',
             'last_name' => 'Pork',
             'email' => 'test@example.com',
+            'password' => 'test',
         ]);
 
         Mission::factory(15)->create();
