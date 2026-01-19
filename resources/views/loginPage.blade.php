@@ -7,12 +7,12 @@
 
     <!-- CSRF token for Laravel -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @vite(['resources/css/loginPage.css'])</head>
+    @vite(['resources/css/loginPage.css'])
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+</head>
 <body>
 
   <div class="header">
@@ -25,23 +25,25 @@
 
             <div class="input-group">
                 <label>Email</label>
-                <input class="input-box" type="email">
+                <input class="input-box" id="email" type="email">
             </div>
 
             <div class="input-group">
                 <label>Password</label>
-                <input class="input-box" type="password">
+                <input class="input-box" id="password" type="password">
             </div>
 
             <div class="forgot">
                 <a href="#" class="link">Forgot password?</a>
             </div>
 
-            <button class="action-button">Sign In</button>
+            <button id="loginBtn" class="action-button">Sign In</button>
 
             <p style="margin-top: 16px;">
                 <a href="#" class="link">Don't have an account? Register</a>
             </p>
+
+                <div id="message" style="margin-top: 10px; font-weight: bold;"></div>
         </div>
     </div>
 
