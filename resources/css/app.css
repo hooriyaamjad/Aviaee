@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import '../../vendor/livewire/flux/dist/flux.css';
-@import 'resources/css/registrationPage.css';
-@import 'resources/css/loginPage.css';
+@import "./registrationPage.css";
+@import "./loginPage.css";
 
 
 @source "../views";
