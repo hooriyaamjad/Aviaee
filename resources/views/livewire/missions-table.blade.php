@@ -63,8 +63,8 @@
                         <tr>
                             <td>Test Mission 1</td>
                             <td><span class="status-badge" style="background: {{ $s->color() }}">{{ $s->label() }}</span></td>
-                            <td>New York</td>
-                            <td>Los Angeles</td>
+                            <td>Point A</td>
+                            <td>Point B</td>
                             <td>2026-01-10</td>
                             <td>N/A</td>
                         </tr>
@@ -73,8 +73,8 @@
                         <tr>
                             <td>Test Mission 2</td>
                             <td><span class="status-badge" style="background: {{ $s->color() }}">{{ $s->label() }}</span></td>
-                            <td>Chicago</td>
-                            <td>Houston</td>
+                            <td>Point C</td>
+                            <td>Point D</td>
                             <td>2026-01-12</td>
                             <td>N/A</td>
                         </tr>
@@ -83,8 +83,8 @@
                         <tr>
                             <td>Test Mission 3</td>
                             <td><span class="status-badge" style="background: {{ $s->color() }}">{{ $s->label() }}</span></td>
-                            <td>New York</td>
-                            <td>Los Angeles</td>
+                            <td>Point E</td>
+                            <td>Point F</td>
                             <td>2026-01-10</td>
                             <td>N/A</td>
                         </tr>
@@ -93,8 +93,8 @@
                         <tr>
                             <td>Test Mission 4</td>
                             <td><span class="status-badge" style="background: {{ $s->color() }}">{{ $s->label() }}</span></td>
-                            <td>New York</td>
-                            <td>Los Angeles</td>
+                            <td>Point G</td>
+                            <td>Point H</td>
                             <td>2026-01-10</td>
                             <td>2026-01-15</td>
                         </tr>
