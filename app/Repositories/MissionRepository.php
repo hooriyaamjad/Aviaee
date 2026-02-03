@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Domain\Interfaces\IUserRepository;
+use App\Domain\Interfaces\IMissionRepository;
 use App\Domain\Entities\MissionEntity;
 use App\Models\Mission as MissionModel;
 
@@ -39,6 +39,4 @@ class MissionRepository implements IMissionRepository
             dateDelivered: $model->date_delivered
         );
     }
-           
-    }
-
+}

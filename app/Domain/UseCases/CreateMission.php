@@ -18,8 +18,6 @@ class CreateMission
     public function execute(MissionEntity $mission): int
     {
         $createdMission = $this->missions->create($mission);
-
-    }
         return $createdMission->id;
-
     }
+}
