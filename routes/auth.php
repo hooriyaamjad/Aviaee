@@ -13,7 +13,6 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/verify-login-credentials', VerifyLoginCredentialsController::class)
         ->name('verify.login.credentials');
-        ->name('verify.login.credentials');
 
     Route::post('/register', RegisterUserController::class)
         ->name('register');
