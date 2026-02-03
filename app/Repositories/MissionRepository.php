@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Domain\Interfaces\IMissionRepository;
 use App\Domain\Entities\MissionEntity;
 use App\Models\Mission as MissionModel;
+use Illuminate\Support\Facades\Auth;
 
 class MissionRepository implements IMissionRepository
 {
@@ -24,7 +25,7 @@ class MissionRepository implements IMissionRepository
             'status'       => $mission->status,
             'starting_location' => $mission->startingLocation,
             'destination'   => $mission->destination,
-            'email'         => $mission->email ?? (auth()->check() ? auth()->user()->email : null),
+            'email' => $mission->email ?? Auth::user()?->email,
             'date_created'  => $mission->dateCreated,
             'date_delivered' => $mission->dateDelivered
         ]);
