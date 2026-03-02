@@ -7,7 +7,7 @@ use App\Models\Mission;
 use App\Models\User;
 
 /**
- * Test the MissionRepository::create method
+ * Test the MissionRepository
  */
 
 test('creates a mission in the database and sets creator email from authenticated user', function () {
@@ -46,4 +46,49 @@ test('creates a mission in the database and sets creator email from authenticate
     expect($result)->toBeInstanceOf(MissionEntity::class);
     expect($result->id)->toBeInt();
     expect($result->email)->toBe($user->email);
+});
+
+
+test('returns missions for a given email', function () {
+
+    // Arrange: repository and mission test data
+    $repo = new MissionRepository();
+    $user = User::factory()->create(['email' => 'owner@example.com']);
+    $other = User::factory()->create(['email' => 'other@example.com']);
+
+    Mission::factory()->create([
+        'mission_name' => 'Owner Mission 1',
+        'status' => 'created',
+        'starting_location' => 'Start 1',
+        'destination' => 'Dest 1',
+        'email' => $user->email,
+    ]);
+
+    Mission::factory()->create([
+        'mission_name' => 'Owner Mission 2',
+        'status' => 'created',
+        'starting_location' => 'Start 2',
+        'destination' => 'Dest 2',
+        'email' => $user->email,
+    ]);
+
+    Mission::factory()->create([
+        'mission_name' => 'Other Mission',
+        'status' => 'created',
+        'starting_location' => 'Other Start',
+        'destination' => 'Other Dest',
+        'email' => $other->email,
+    ]);
+
+    // Act: Get missions for the owner email
+    $results = $repo->getMissions($user->email);
+
+    // Assert: Verify correct missions are returned
+    expect($results)->toBeArray();
+    expect(count($results))->toBe(2);
+    expect($results[0])->toBeInstanceOf(\App\Domain\Entities\MissionEntity::class);
+
+    foreach ($results as $r) {
+        expect($r->email)->toBe($user->email);
+    }
 });

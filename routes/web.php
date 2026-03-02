@@ -3,10 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('home');
-
 Route::get('/', function () {
     return view('loginPage');
 })->name('home');
@@ -15,18 +11,11 @@ Route::get('/registration', function () {
     return view('registrationPage');
 })->name('registration');
 
-Route::get('/createMission', function () {
+Route::get('/create-mission', function () {
     return view('createMissionPage');
-})->name('createMission');
+})->name('create.mission');
 
-Route::get('/missions', function () {
-    return view('missionsPage');
-})->name('missions');
-
-// Route::get('/login-sample', function () {
-//     return view('loginSample');
-// });
-
+// TODO: Remove this page route after implementing full auth flow
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -37,6 +26,10 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+
+    Route::get('/missions-list', function () {
+        return view('missionsPage');
+    })->name('missions.list');
 });
 
 require __DIR__ . '/auth.php';
