@@ -60,10 +60,14 @@ class MissionsTable extends Component
             if ($this->search === '') return true;
 
             $q = strtolower($this->search);
-            return str_contains(strtolower($m['missionName']), $q)
-                || str_contains(strtolower($m['startingLocation']), $q)
-                || str_contains(strtolower($m['destination']), $q)
-                || str_contains(strtolower($m['email'] ?? ''), $q);
+
+            return str_contains(strtolower((string) ($m['id'] ?? '')), $q)
+                || str_contains(strtolower($m['missionName'] ?? ''), $q)
+                || str_contains(strtolower($m['startingLocation'] ?? ''), $q)
+                || str_contains(strtolower($m['destination'] ?? ''), $q)
+                || str_contains(strtolower($m['email'] ?? ''), $q)
+                || str_contains(strtolower((string) ($m['dateCreated'] ?? '')), $q)
+                || str_contains(strtolower((string) ($m['dateDelivered'] ?? '')), $q);
         })->values();
 
         $page = request()->get('page', 1);
