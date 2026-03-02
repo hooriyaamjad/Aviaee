@@ -72,6 +72,7 @@
                         const loadingRow = '<tr><td colspan="6">Loading missions...</td></tr>';
                         const noResultsRow = '<tr><td colspan="6" class="no-results">No missions found.</td></tr>';
 
+                        // TODO: use the enum rather than this map
                         const statusMap = {
                             'ordered': {label: 'Ordered', color: '#F7D579'},
                             'packed': {label: 'Packed', color: '#F5A97B'},
@@ -103,6 +104,7 @@
                                     tbody.innerHTML = noResultsRow;
                                     return;
                                 }
+                                console.log(missions);
 
                                 const rows = missions.map(function(m) {
                                     const s = statusMap[m.status] || {label: (m.status || 'Unknown'), color: '#6b7280'};

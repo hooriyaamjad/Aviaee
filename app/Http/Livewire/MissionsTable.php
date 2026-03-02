@@ -48,7 +48,7 @@ class MissionsTable extends Component
                     'destination' => $m->destination,
                     'email' => $m->email,
                     'dateCreated' => (string) $m->dateCreated,
-                    'dateDelivered' => (string) $m->dateDelivered,
+                    'dateDelivered' => $m->dateDelivered ? (string) $m->dateDelivered : '',
                 ];
             }, $entities));
         }
