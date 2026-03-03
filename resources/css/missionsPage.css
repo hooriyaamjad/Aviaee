@@ -135,6 +135,11 @@
     border-right: none;
 }
 
+.missions-table-table tbody tr:hover {
+    cursor: pointer;
+    background-color: #fbf0ee !important;
+}
+
 .missions-table-table tbody tr:nth-child(odd) {
     background: #fff;
 }
