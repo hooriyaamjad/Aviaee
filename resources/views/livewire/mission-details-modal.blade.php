@@ -17,9 +17,12 @@
             <div class="modal-body">
                 <div class="mission-detail-row">
                     @if($editingStatus)
-                        @foreach(\App\Enums\MissionStatus::cases() as $status)
-                            <option value="{{ $status->value }}">{{ $status->label() }}</option>
-                        @endforeach
+                        <label for="status-select" class="detail-label">STATUS:</label>
+                        <select id="status-select" wire:model="selectedStatus" class="status-select">
+                            @foreach(\App\Enums\MissionStatus::cases() as $status)
+                                <option value="{{ $status->value }}">{{ $status->label() }}</option>
+                            @endforeach
+                        </select>
                     @else
                         @php
                             $statusValue = $mission['status'] ?? null;

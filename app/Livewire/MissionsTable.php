@@ -19,24 +19,24 @@ class MissionsTable extends Component
     public string $status = '';
 
     public int $perPage = 10;
+
+    // TODO: implement sorting in UI and add logic here
     public string $sortField = 'created_at';
     public bool $sortAsc = false;
 
     public function updatingSearch()
     {
-        logger()->info('updatingSearch called, resetting page');
         $this->resetPage();
     }
 
     public function updatingStatus()
     {
-        logger()->info('updatingStatus called, resetting page');
         $this->resetPage();
     }
 
     public function openModal($missionData)
     {
-        logger()->info('openModal called with data', $missionData);
+        logger()->info('openModal called for mission', ['id' => $missionData['id'] ?? null]);
         // propagate event for modal component to listen
         $this->dispatch('openMissionModal', $missionData);
     }
@@ -47,14 +47,16 @@ class MissionsTable extends Component
         $items = collect();
 
         $email = Auth::user()?->email;
-        if (!Auth::check()) {
+        if (!$email) {
             logger()->warning('MissionsTable.render called with no authenticated user');
         }
         if ($email) {
+            // TODO: for users with many missions, this becomes inefficient
+            // may want to consider pushing filters (status, search) to the repository query
             $repo = app(\App\Domain\Interfaces\IMissionRepository::class);
             $entities = $repo->getMissions($email);
 
-            logger()->info('MissionsTable.render fetched ' . count($entities) . ' entities for ' . $email);
+            logger()->info('MissionsTable.render fetched ' . count($entities) . ' entities for user ' . Auth::id());
 
             $items = collect(array_map(function ($m) {
                 return [
@@ -89,7 +91,7 @@ class MissionsTable extends Component
                 || str_contains(strtolower((string) ($m['dateDelivered'] ?? '')), $q);
         })->values();
 
-        $page = request()->get('page', 1);
+        $page = (int) request()->get('page', 1);
         $perPage = $this->perPage;
         $currentItems = $filtered->forPage($page, $perPage);
 

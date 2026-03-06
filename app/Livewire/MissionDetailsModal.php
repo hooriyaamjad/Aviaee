@@ -15,7 +15,7 @@ class MissionDetailsModal extends Component
     #[On('openMissionModal')]
     public function openMissionModal(?array $missionData = null)
     {
-        logger()->info('openMissionModal called with data', $missionData ?? []);
+        logger()->debug('openMissionModal called', ['mission_id' => $missionData['id'] ?? null]);
         if (empty($missionData)) {
             return;
         }
@@ -39,6 +39,7 @@ class MissionDetailsModal extends Component
         $this->editingStatus = !$this->editingStatus;
     }
 
+    // TODO: TBD when update API is implemented - may need to move this logic? (MissionsTable)
     public function updateStatus()
     {
         if (!isset($this->mission['id'])) {

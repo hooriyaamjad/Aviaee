@@ -6,7 +6,7 @@
 
     <div class="missions-top-bar">
         <div class="missions-search-form">
-            <input id="missions-search" type="search" wire:model.live="search" placeholder="Search..." class="search-input" aria-label="Search missions" />
+            <input id="missions-search" type="search" wire:model.live.debounce.300ms="search" placeholder="Search..." class="search-input" aria-label="Search missions" />
             <img src="{{ Vite::asset('resources/assets/search-icon.svg') }}" alt="Search Icon" class="search-icon">
 
             <select id="missions-status" wire:model.live="status" class="status-filter">

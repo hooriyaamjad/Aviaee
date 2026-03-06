@@ -108,7 +108,7 @@ body {
 }
 
 .cancel-button {
-    background-color: none;
+    background-color: transparent;
     border: 2px solid #639EB0;
     color: #639EB0;
     padding: 6px 30px;
